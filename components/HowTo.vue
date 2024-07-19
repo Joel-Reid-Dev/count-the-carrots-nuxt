@@ -9,24 +9,23 @@
       Score" to see if you have won.
       <p>To Restart the game, simply click "Restart the Game"</p>
     </p>
-    <GameSettings @change="updateDifficulty"/>
+    <GameSettings v-model="difficulty"/>
     <button @click="startGame">Start the Game!</button>
   </div>
 </template>
 
 <script setup lang="ts">
 
-const selectedDifficulty = ref('easy')
-
-const updateDifficulty = (value) => {
-  selectedDifficulty.value = value.target.defaultValue
-}
+const difficulty = defineModel<string>('easy');
 
 const emit = defineEmits<{
   (e:'play', difficulty:string): void
 }>();
+
 const startGame = () => {
-  emit('play', selectedDifficulty.value)
+  if (difficulty.value) {
+    emit('play', difficulty.value)
+  }
 }
 
 
@@ -39,7 +38,8 @@ const startGame = () => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width:50%;
+  width:40rem;
+  height:40rem;
   margin: 0 auto;
   background: #00dc82;
   color:black;
